@@ -38,7 +38,6 @@ sample_config = """
 """
 
 ADHOC_COMMANDS = deque([])
-# SPLIT_TOKEN = ","
 
 
 def mqtt_callback(client, userdata, msg):
@@ -48,7 +47,7 @@ def mqtt_callback(client, userdata, msg):
     ADHOC_COMMANDS.append(newCommand)
 
 
-def readConfigFile(configFile=None):
+def read_config_file(configFile=None):
     _config = {}
     if configFile is not None:
         try:
@@ -61,12 +60,13 @@ def readConfigFile(configFile=None):
     return _config
 
 
-def processCommandLineOverrides(args):
+def process_command_line_overrides(args):
+    # TODO: implement CLI overrides
     _config = {}
     return _config
 
 
-def buildMqttBroker(config):
+def build_mqtt_broker(config):
     _mqttbroker = MqttBroker(config)
     if "mqttbroker" not in config:
         log.debug("No mqttbroker definition in config")
@@ -155,9 +155,9 @@ def main():
     # build config - start with defaults
     config = yaml.safe_load(sample_config)
     # build config - update with details from config file
-    config.update(readConfigFile(args.configFile))
+    config.update(read_config_file(args.configFile))
     # build config - override with any command line arguments
-    config.update(processCommandLineOverrides(args))
+    config.update(process_command_line_overrides(args))
 
     # if generateConfigFile is true then print config out
     if args.generateConfigFile:
@@ -173,7 +173,7 @@ def main():
     mqttconfig = config.get("mqttbroker", {})
     mqtt_broker = MqttBroker(config=mqttconfig)
     # sub to command topic if defined
-    mqtt_broker.setAdhocCommands(
+    mqtt_broker.set_adhoc_commands(
         adhoc_commands=mqttconfig.get("adhoc_commands"), callback=mqtt_callback
     )
     log.debug(mqtt_broker)

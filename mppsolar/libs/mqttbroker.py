@@ -5,7 +5,7 @@ from typing import Optional
 import paho.mqtt.client as mqtt_client
 
 # Set-up logger
-log = logging.getLogger("mqttbroker")
+log = logging.getLogger(__name__)
 
 
 @dataclass
@@ -70,8 +70,8 @@ class MqttBroker:
     def stop(self):
         if self.name:
             self.mqttc.loop_stop()
-            if self._isConnected:
-                self.mqttc.disconnect
+        if self._isConnected:
+            self.mqttc.disconnect()
 
     def set(self, variable, value):
         setattr(self, variable, value)
@@ -89,7 +89,7 @@ class MqttBroker:
         # check if connected, connect if not
         if not self._isConnected:
             log.debug("Not connected, connecting")
-            self.connect
+            self.connect()
         # Register callback
         self.mqttc.on_message = callback
         if self._isConnected:
@@ -167,7 +167,7 @@ class MqttBrokerC:
             try:
                 self.mqttc.connect(self.name, self.port, keepalive=60)
             except ConnectionRefusedError as exc:
-                log.warn(f"{self.name} refused connection '{exc}'")
+                log.exception(f"{self.name} refused connection")
         else:
             log.debug(f"Did not connect as no broker name '{self.name}'")
 
@@ -178,8 +178,8 @@ class MqttBrokerC:
     def stop(self):
         if self.name:
             self.mqttc.loop_stop()
-            if self._isConnected:
-                self.mqttc.disconnect
+        if self._isConnected:
+            self.mqttc.disconnect()
 
     def set(self, variable, value):
         setattr(self, variable, value)
@@ -205,12 +205,13 @@ class MqttBrokerC:
             log.debug(f"Subscribing to topic {topic}")
             self.mqttc.subscribe(topic, qos=0)
         else:
-            log.warn(f"Did not subscribe to topic {topic} as not connected to broker")
+            log.warning(f"Did not subscribe to topic {topic} as not connected to broker")
 
-    def setAdhocCommands(self, adhoc_commands={}, callback=None):
+    def set_adhoc_commands(self, adhoc_commands=None, callback=None):
         # sub to command topic if defined
+        adhoc_commands = adhoc_commands or {}
         adhoc_commands_topic = adhoc_commands.get("topic")
-        if adhoc_commands_topic is not None:
+        if adhoc_commands_topic:
             log.info(f"Setting adhoc commands topic to {adhoc_commands_topic}")
             self.subscribe(adhoc_commands_topic, callback)
 
