@@ -1,15 +1,13 @@
 format:
-	flake8 setup.py mppsolar tests
+	pre-commit run -a
 
 test: tests/*.py
 	pytest -sv
 
 t: test
 
-pypi:
-	rm -rf dist/*
+build:
 	poetry build
-	ls -l dist/
 
-pypi-upload:
-	twine upload dist/*
+release:
+	poetry publish
