@@ -30,7 +30,7 @@ jobs:
         poetry install
     - name: Lint
       run: |
-        pre-commit run -a
+        poetry run pre-commit run -a
     - name: Test with pytest
       run: |
-        pytest
+        poetry run pytest
