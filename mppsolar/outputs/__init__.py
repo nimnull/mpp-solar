@@ -1,32 +1,58 @@
-import logging
 import importlib
+import logging
 import pkgutil
-import re
 
-from ..helpers import key_wanted, get_kwargs
+from mppsolar.outputs import (
+    baseoutput,
+    domoticz_autodiscover,
+    domoticz_mqtt,
+    hass_mqtt,
+    hassd_mqtt,
+    influx2_mqtt,
+    influx_mqtt,
+    json,
+    json_mqtt,
+    json_udp,
+    mqtt,
+    raw,
+    screen,
+    tag_mqtt,
+)
 
-log = logging.getLogger("helpers")
+LOG = logging.getLogger(__name__)
+
+OUTPUTS = {
+    "baseoutput": baseoutput.BaseOutput,
+    "domoticz_autodiscover": domoticz_autodiscover.DomoticzAutodiscover,
+    "domoticz_mqtt": domoticz_mqtt.DomoticzMQTT,
+    "hass_mqtt": hass_mqtt.HassMQTT,
+    "hassd_mqtt": hassd_mqtt.HassdMQTT,
+    "influx_mqtt": influx_mqtt.InfluxMQTT,
+    "influx2_mqtt": influx2_mqtt.Influx2MQTT,
+    "json_mqtt": json_mqtt.JsonMQTT,
+    "json": json.Json,
+    "raw": raw.Raw,
+    "tag_mqtt": tag_mqtt.TagMQTT,
+    "json_udp": json_udp.JsonUDP,
+    "mqtt": mqtt.MQTT,
+    "screen": screen.Screen,
+}
 
 
 def list_outputs():
-    print("outputs list outputs")
     pkgpath = __file__
     pkgpath = pkgpath[: pkgpath.rfind("/")]
     pkgpath += "/../outputs"
-    # print(pkgpath)
     result = {}
     result["_command"] = "outputs help"
     result["_command_description"] = "List available output modules"
     for _, name, _ in pkgutil.iter_modules([pkgpath]):
-        # print(name)
         try:
             _module_class = importlib.import_module("mppsolar.outputs." + name, ".")
             _module = getattr(_module_class, name)
+            result[name] = (str(_module()), "", "")
         except ModuleNotFoundError as e:
-            log.error(f"Error in module {name}: {e}")
-        # print(_module())
-        result[name] = (str(_module()), "", "")
-    # print(result)
+            LOG.error(f"Error in module {name}: {e}")
     return result
 
 
@@ -35,16 +61,13 @@ def get_output(output):
     Take an output name
     attempt to find and instantiate the corresponding module
     """
-    log.info(f"attempting to create output processor: {output}")
-    try:
-        output_module = importlib.import_module("mppsolar.outputs." + output, ".")
-        output_class = getattr(output_module, output)
-        return output_class()
-    except ModuleNotFoundError as e:
-        # perhaps raise a Powermon exception here??
-        # maybe warn and keep going, only error if no outputs found?
-        log.critical(f"No module found for output processor {output} Error: {e}")
-    return None
+    LOG.info("Attempting to create output processor: %s", output)
+    output_cls = OUTPUTS.get(output)
+    if output_cls is None:
+        LOG.critical("No module found for output processor %s", output)
+        return None
+    else:
+        return output_cls()
 
 
 def get_outputs(output_list):
@@ -63,12 +86,12 @@ def get_outputs(output_list):
 
 
 def output_results(results, outputs, mqtt_broker):
-    print(outputs)
+    LOG.info("outputs: %s", outputs)
 
     for op in outputs:
         # maybe include the command and what the command is im the output
         # eg QDI run, Display Inverter Default Settings
-        # filter = config.get("CONFIG", "filter")
+        # filter_ = config.get("CONFIG", "filter")
         # log.debug(f"Using output filter: {filter}")
         output = get_output(op["name"])
         output.output(
@@ -79,34 +102,3 @@ def output_results(results, outputs, mqtt_broker):
             # excl_filter=excl_filter,
             # keep_case=keep_case,
         )
-
-
-def to_json(data, keep_case, excl_filter, filter):
-    output = {}
-    # Loop through responses
-    for key in data:
-        value = data[key]
-        if isinstance(value, list):
-            value = data[key][0]
-        # unit = data[key][1]
-        # remove spaces
-        key = key.replace(" ", "_")
-        if not keep_case:
-            # make lowercase
-            key = key.lower()
-        if key_wanted(key, filter, excl_filter):
-            output[key] = value
-    return output
-
-
-def get_common_params(kwargs):
-    data = get_kwargs(kwargs, "data")
-    tag = get_kwargs(kwargs, "tag")
-    keep_case = get_kwargs(kwargs, "keep_case")
-    filter_ = get_kwargs(kwargs, "filter")
-    if filter_ is not None:
-        filter_ = re.compile(filter_)
-    excl_filter = get_kwargs(kwargs, "excl_filter")
-    if excl_filter is not None:
-        excl_filter = re.compile(excl_filter)
-    return data, tag, keep_case, filter_, excl_filter

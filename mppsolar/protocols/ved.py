@@ -122,6 +122,7 @@ class ved(AbstractProtocol):
     """
     VED - VEDirect protocol handler
     """
+
     def __str__(self):
         return "VED protocol handler for Victron direct SmartShunts"
 
@@ -221,10 +222,7 @@ class ved(AbstractProtocol):
             # pad command (which is single char)
             _r = f"0{_r}"
             _r = bytes.fromhex(_r)
-            if (
-                self._command_defn is not None
-                and self._command_defn["response_type"] == "POSITIONAL"
-            ):
+            if self._command_defn is not None and self._command_defn["response_type"] == "POSITIONAL":
                 # Have a POSITIONAL type response, so need to break it up...
                 for defn in self._command_defn["response"]:
                     size = defn[1]

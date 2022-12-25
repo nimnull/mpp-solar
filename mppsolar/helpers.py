@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-import logging
 import importlib
+import logging
 
 log = logging.getLogger("helpers")
 
 
 def get_kwargs(kwargs, key, default=None):
-    if key not in kwargs or not kwargs[key]:
+    if not kwargs.get(key):
         return default
     return kwargs[key]
 

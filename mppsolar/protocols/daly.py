@@ -190,6 +190,7 @@ class daly(AbstractProtocol):
     """
     DALY - Daly BMS protocol handler
     """
+
     def __str__(self):
         return "Daly BMS protocol handler"
 
@@ -232,10 +233,7 @@ class daly(AbstractProtocol):
 
     def is_multiframe(self, response) -> bool:
         # startFlag = bytes.fromhex("A5")
-        if (
-            "response_length" in self._command_defn
-            and len(response) > self._command_defn["response_length"]
-        ):
+        if "response_length" in self._command_defn and len(response) > self._command_defn["response_length"]:
             return True
         return False
 
@@ -273,10 +271,7 @@ class daly(AbstractProtocol):
         # remove \n
         # response = response.replace(b"\n", b"")
 
-        if (
-            self._command_defn is not None
-            and self._command_defn["response_type"] == "MULTIFRAME-POSITIONAL"
-        ):
+        if self._command_defn is not None and self._command_defn["response_type"] == "MULTIFRAME-POSITIONAL":
             # Have multiple frames of positional data
             # Split into frames
             frame_size = self._command_defn["response_length"]

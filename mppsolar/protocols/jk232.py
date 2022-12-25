@@ -3,7 +3,6 @@ import logging
 from .abstractprotocol import AbstractProtocol
 from .protocol_helpers import crcJK232 as crc
 
-
 log = logging.getLogger("jk232")
 
 

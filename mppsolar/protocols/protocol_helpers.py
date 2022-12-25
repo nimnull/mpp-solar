@@ -73,7 +73,7 @@ def uptime(byteData):
     value = 0
     for x, b in enumerate(byteData):
         # b = byteData.pop(0)
-        value += b * 256 ** x
+        value += b * 256**x
         log.debug(f"Uptime int value {value} for pos {x}")
     daysFloat = value / (60 * 60 * 24)
     days = math.trunc(daysFloat)
@@ -248,34 +248,34 @@ def _decode4ByteHex1000(hexToDecode):
 
     # 1st position
     pos1 = hexString[0] >> 4
-    answer += pos1 * (2 ** 4 / 1000)
+    answer += pos1 * (2**4 / 1000)
     log.debug(f"answer after pos1 {answer}")
     # 2nd position
     pos2 = hexString[0] & 0x0F
-    answer += pos2 * (2 ** 0 / 1000)
+    answer += pos2 * (2**0 / 1000)
     log.debug(f"answer after pos2 {answer}")
     # 3rd position
     pos3 = hexString[1] >> 4
-    answer += pos3 * (2 ** 12 / 1000)
+    answer += pos3 * (2**12 / 1000)
     log.debug(f"answer after pos3 {answer}")
     # 4th position
     pos4 = hexString[1] & 0x0F
-    answer += pos4 * (2 ** 8 / 1000)
+    answer += pos4 * (2**8 / 1000)
     # 5st position
     pos5 = hexString[2] >> 4
-    answer += pos5 * (2 ** 20 / 1000)
+    answer += pos5 * (2**20 / 1000)
     log.debug(f"answer after pos5 {answer}")
     # 6st position
     pos6 = hexString[2] & 0x0F
-    answer += pos6 * (2 ** 16 / 1000)
+    answer += pos6 * (2**16 / 1000)
     log.debug(f"answer after pos6 {answer}")
     # 7th position
     pos7 = hexString[3] >> 4
-    answer += pos7 * (2 ** 28 / 1000)
+    answer += pos7 * (2**28 / 1000)
     log.debug(f"answer after pos7 {answer}")
     # 8th position
     pos8 = hexString[3] & 0x0F
-    answer += pos8 * (2 ** 24 / 1000)
+    answer += pos8 * (2**24 / 1000)
 
     log.debug(f"answer after pos8 {answer}")
     log.debug(f"Hex {hexString} 8 byte decoded to {answer}")

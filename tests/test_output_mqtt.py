@@ -1,7 +1,7 @@
 import unittest
 
 # from mppsolar.outputs import get_outputs
-from mppsolar.outputs.mqtt import mqtt as mqtt
+from mppsolar.outputs.mqtt import MQTT
 
 
 class test_mqtt_output(unittest.TestCase):
@@ -24,9 +24,7 @@ class test_mqtt_output(unittest.TestCase):
             "Battery voltage": [51.4, "V"],
         }
 
-        msgs = mqtt().build_msgs(
-            data=data, tag=tag, keep_case=False, filter=None, excl_filter=None
-        )
+        msgs = MQTT().build_msgs(data=data, tag=tag, keep_case=False, filter=None, excl_filter=None)
 
         # needed to initialise variables
         expected = [

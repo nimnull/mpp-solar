@@ -1,4 +1,5 @@
 import unittest
+
 from mppsolar.protocols.jk02 import jk02 as pi
 
 

@@ -37,6 +37,7 @@ if __name__ == "__main__":
         global lock
         print("Hello %s! lock=%s" % (name, lock))
         lock = not lock
+
     lock = False
     # some_lock = threading.Lock()
     # with some_lock:

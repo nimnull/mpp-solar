@@ -3,8 +3,8 @@ import logging
 import random
 import re
 
-from .baseio import BaseIO
 from ..helpers import get_kwargs
+from .baseio import BaseIO
 
 log = logging.getLogger("TestIO")
 
@@ -36,14 +36,10 @@ class TestIO(BaseIO):
                     log.warn(
                         f"Test response requested: {desired_test_response} exceeds highest id available (IDs start at 0): {number_of_test_responses-1}, returning random one"
                     )
-                    self._test_data = command_defn["test_responses"][
-                        random.randrange(number_of_test_responses)
-                    ]
+                    self._test_data = command_defn["test_responses"][random.randrange(number_of_test_responses)]
             else:
                 # just use a random test response
-                self._test_data = command_defn["test_responses"][
-                    random.randrange(number_of_test_responses)
-                ]
+                self._test_data = command_defn["test_responses"][random.randrange(number_of_test_responses)]
         else:
             # No test responses defined
             log.warn("Testing a command with no test responses defined")

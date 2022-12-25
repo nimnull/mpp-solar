@@ -3,18 +3,15 @@ import logging
 import re
 
 from ..helpers import get_kwargs
-from . import to_json
-from .baseoutput import baseoutput
+from .baseoutput import BaseOutput
+from .helpers import to_json
 
-log = logging.getLogger("json")
+log = logging.getLogger(__name__)
 
 
-class json(baseoutput):
+class Json(BaseOutput):
     def __str__(self):
         return "outputs the results to standard out in json format"
-
-    def __init__(self, *args, **kwargs) -> None:
-        log.debug(f"__init__: kwargs {kwargs}")
 
     def output(self, *args, **kwargs):
         log.info("Using output processor: json")

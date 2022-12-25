@@ -404,9 +404,7 @@ COMMANDS = {
         "description": "Set Battery Max AC Charging Current 			(Manual Option 13)",
         "help": " -- example: MUCHGC0,030 	(set unit 0 [0-9] utility charging current to 30A [002 010 020 030 040 050 060 070 080])",
         "type": "SETTER",
-        "response": [
-            ["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]
-        ],
+        "response": [["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]],
         "test_responses": [
             b"",
         ],
@@ -418,9 +416,7 @@ COMMANDS = {
         "description": "Set Battery Type 					(Manual Option 14)",
         "help": " -- example: PBT0 		(set battery as PBT0 [0: AGM], PBT1 [1: FLOODED], PBT2 [2: USER])",
         "type": "SETTER",
-        "response": [
-            ["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]
-        ],
+        "response": [["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]],
         "test_responses": [
             b"(NAK\x73\x73\r",
             b"(ACK\x39\x20\r",
@@ -449,9 +445,7 @@ COMMANDS = {
         "description": "Set Battery Cut-off Voltage	 			(Manual Option 19)",
         "help": " -- example: PSDV450 		(set battery cut-off voltage to 45V [400~480V] for 48V unit)",
         "type": "SETTER",
-        "response": [
-            ["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]
-        ],
+        "response": [["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]],
         "test_responses": [
             b"(NAK\x73\x73\r",
             b"(ACK\x39\x20\r",
@@ -464,9 +458,7 @@ COMMANDS = {
         "description": "Set Battery Stop dis,charging when Grid is available (Manual Option 20,21)",
         "help": " -- example: BUCD440,480	(set Stop discharge Voltage [440~510] in 0.1V xxx, Stop Charge Voltage [000(Full) or 480~580] in 0.1V yyy)",
         "type": "SETTER",
-        "response": [
-            ["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]
-        ],
+        "response": [["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]],
         "test_responses": [
             b"(NAK\x73\x73\r",
             b"(ACK\x39\x20\r",
@@ -512,9 +504,7 @@ class pi18(AbstractProtocol):
         """
         Override the default get_full_command as its different
         """
-        log.info(
-            f"Using protocol {self._protocol_id} with {len(self.COMMANDS)} commands"
-        )
+        log.info(f"Using protocol {self._protocol_id} with {len(self.COMMANDS)} commands")
         # These need to be set to allow other functions to work`
         self._command = command
         self._command_defn = self.get_command_defn(command)

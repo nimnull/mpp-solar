@@ -21,20 +21,20 @@
 * Display info from a Victron Smart Shunt connected to the serial port on ttyUSB0
   * `mpp-solar -p /dev/ttyUSB0 -P VED -c vedtext --porttype vserial -b 19200`
 
-* Filter output to only parameters with 'pv' or 'battery' 
+* Filter output to only parameters with 'pv' or 'battery'
   * `mpp-solar -p /dev/ttyUSB0 -P PI30MAX --getstatus --filter "pv|battery"`
 
 ```
 Command: QPIGS - General Status Parameters inquiry
 ------------------------------------------------------------
 Parameter                     	Value           Unit
-battery_voltage               	52.3           	V   
-battery_charging_current      	0              	A   
-battery_capacity              	81             	%   
-pv1_input_current             	0.0            	A   
-pv1_input_voltage             	0.0            	V   
-battery_voltage_from_scc      	0.0            	V   
-battery_discharge_current     	5              	A   
+battery_voltage               	52.3           	V
+battery_charging_current      	0              	A
+battery_capacity              	81             	%
+pv1_input_current             	0.0            	A
+pv1_input_voltage             	0.0            	V
+battery_voltage_from_scc      	0.0            	V
+battery_discharge_current     	5              	A
 is_battery_voltage_to_steady_while_charging	0              	bool
 battery_voltage_offset_for_fans_on	0              	10mV
 pv1_charging_power
@@ -100,41 +100,41 @@ To list all the available commands for a given protocol, specify the protocol an
 Command: command help - List available commands for protocol PI30
 ------------------------------------------------------------
 Parameter                     	Value           Unit
-F                             	Set Device Output Frequency	    
-MCHGC                         	Set Max Charging Current (for parallel units)	    
-MNCHGC                        	Set Utility Max Charging Current (more than 100A) (for 4000/5000)	    
-MUCHGC                        	Set Utility Max Charging Current	    
-PBCV                          	Set Battery re-charge voltage	    
-PBDV                          	Set Battery re-discharge voltage	    
-PBFT                          	Set Battery Float Charging Voltage	    
-PBT                           	Set Battery Type	    
-PCP                           	Set Device Charger Priority	    
-PCVV                          	Set Battery C.V. (constant voltage) charging voltage	    
-PEPD                          	Set the enabled / disabled state of various Inverter settings (e.g. buzzer, overload, interrupt alarm)	    
-PF                            	Set Control Parameters to Default Values	    
-PGR                           	Set Grid Working Range	    
-POP                           	Set Device Output Source Priority	    
-POPM                          	Set Device Output Mode (for 4000/5000)	    
-PPCP                          	Set Parallel Device Charger Priority (for 4000/5000)	    
-PPVOKC                        	Set PV OK Condition	    
-PSDV                          	Set Battery Cut-off Voltage	    
-PSPB                          	Set Solar Power Balance	    
-Q1                            	Q1 query       	    
-QBOOT                         	DSP Has Bootstrap inquiry	    
-QDI                           	Default Settings inquiry	    
-QFLAG                         	Flag Status inquiry	    
-QID                           	Device Serial Number inquiry	    
-QMCHGCR                       	Max Charging Current Options inquiry	    
-QMOD                          	Mode inquiry   	    
-QMUCHGCR                      	Max Utility Charging Current Options inquiry	    
-QOPM                          	Output Mode inquiry	    
-QPGS                          	Parallel Information inquiry	    
-QPI                           	Protocol ID inquiry	    
-QPIGS                         	General Status Parameters inquiry	    
-QPIRI                         	Current Settings inquiry	    
-QPIWS                         	Warning status inquiry	    
-QVFW                          	Main CPU firmware version inquiry	    
-QVFW2                         	Secondary CPU firmware version inquiry	    
+F                             	Set Device Output Frequency
+MCHGC                         	Set Max Charging Current (for parallel units)
+MNCHGC                        	Set Utility Max Charging Current (more than 100A) (for 4000/5000)
+MUCHGC                        	Set Utility Max Charging Current
+PBCV                          	Set Battery re-charge voltage
+PBDV                          	Set Battery re-discharge voltage
+PBFT                          	Set Battery Float Charging Voltage
+PBT                           	Set Battery Type
+PCP                           	Set Device Charger Priority
+PCVV                          	Set Battery C.V. (constant voltage) charging voltage
+PEPD                          	Set the enabled / disabled state of various Inverter settings (e.g. buzzer, overload, interrupt alarm)
+PF                            	Set Control Parameters to Default Values
+PGR                           	Set Grid Working Range
+POP                           	Set Device Output Source Priority
+POPM                          	Set Device Output Mode (for 4000/5000)
+PPCP                          	Set Parallel Device Charger Priority (for 4000/5000)
+PPVOKC                        	Set PV OK Condition
+PSDV                          	Set Battery Cut-off Voltage
+PSPB                          	Set Solar Power Balance
+Q1                            	Q1 query
+QBOOT                         	DSP Has Bootstrap inquiry
+QDI                           	Default Settings inquiry
+QFLAG                         	Flag Status inquiry
+QID                           	Device Serial Number inquiry
+QMCHGCR                       	Max Charging Current Options inquiry
+QMOD                          	Mode inquiry
+QMUCHGCR                      	Max Utility Charging Current Options inquiry
+QOPM                          	Output Mode inquiry
+QPGS                          	Parallel Information inquiry
+QPI                           	Protocol ID inquiry
+QPIGS                         	General Status Parameters inquiry
+QPIRI                         	Current Settings inquiry
+QPIWS                         	Warning status inquiry
+QVFW                          	Main CPU firmware version inquiry
+QVFW2                         	Secondary CPU firmware version inquiry
 ```
 
 or
@@ -143,7 +143,7 @@ or
 ommand: command help - List available commands for protocol JK04
 ------------------------------------------------------------
 Parameter                     	Value           Unit
-getInfo                       	BLE Device Information inquiry	    
+getInfo                       	BLE Device Information inquiry
 getCellData                   	BLE Cell Data inquiry
 ```
 
@@ -154,16 +154,16 @@ To list all the available output processors, specify `-o` but do not supply any 
 Command: outputs help - List available output modules
 ------------------------------------------------------------
 Parameter                     	Value           Unit
-baseoutput                    	the base class for the output processors, not used directly	    
-hass_mqtt                     	outputs the to the supplied mqtt broker in hass format: eg "homeassistant/sensor/mpp_{tag}_{key}/state" 	    
-influx2_mqtt                  	outputs the to the supplied mqtt broker: eg mpp-solar,command={tag} max_charger_range=120.0	    
-influx_mqtt                   	outputs the to the supplied mqtt broker: eg {tag}, {tag},setting=total_ac_output_apparent_power value=1577.0,unit="VA" 	    
-json                          	outputs the results to standard out in json format	    
-json_mqtt                     	outputs all the results to the supplied mqtt broker in a single message formated as json: eg 	    
-mqtt                          	outputs the results to the supplied mqtt broker: eg {tag}/status/total_output_active_power/value 1250	    
-raw                           	outputs the raw results to standard out	    
-screen                        	[the default output module] outputs the results to standard out in a slightly formatted way	    
-tag_mqtt                      	outputs the to the supplied mqtt broker using the supplied tag as the topic: eg {tag}/max_charger_range 120.0	    
+baseoutput                    	the base class for the output processors, not used directly
+hass_mqtt                     	outputs the to the supplied mqtt broker in hass format: eg "homeassistant/sensor/mpp_{tag}_{key}/state"
+influx2_mqtt                  	outputs the to the supplied mqtt broker: eg mpp-solar,command={tag} max_charger_range=120.0
+influx_mqtt                   	outputs the to the supplied mqtt broker: eg {tag}, {tag},setting=total_ac_output_apparent_power value=1577.0,unit="VA"
+json                          	outputs the results to standard out in json format
+json_mqtt                     	outputs all the results to the supplied mqtt broker in a single message formated as json: eg
+mqtt                          	outputs the results to the supplied mqtt broker: eg {tag}/status/total_output_active_power/value 1250
+raw                           	outputs the raw results to standard out
+screen                        	[the default output module] outputs the results to standard out in a slightly formatted way
+tag_mqtt                      	outputs the to the supplied mqtt broker using the supplied tag as the topic: eg {tag}/max_charger_range 120.0
 ```
 
 ## Example
@@ -177,15 +177,15 @@ run mpp-solar
 `$ mpp-solar -n 'FirstInverter' -P PI16 -o screen -c QPIRI -p /dev/hidraw0`
 ```
 Parameter                     	Value           Unit
-grid_input_voltage_rating     	230.0          	V   
-grid_input_frequency_rating   	50.0           	Hz  
-grid_input_current_rating     	13.0           	A   
-ac_output_voltage_rating      	230.0          	V   
-ac_output_current_rating      	13.0           	A   
-maximum_input_current_per_pv  	18.0           	A   
-battery_voltage_rating        	48.0           	V   
-number_of_mpp_trackers        	1              	    
-machine_type                  	Hybrid         	    
+grid_input_voltage_rating     	230.0          	V
+grid_input_frequency_rating   	50.0           	Hz
+grid_input_current_rating     	13.0           	A
+ac_output_voltage_rating      	230.0          	V
+ac_output_current_rating      	13.0           	A
+maximum_input_current_per_pv  	18.0           	A
+battery_voltage_rating        	48.0           	V
+number_of_mpp_trackers        	1
+machine_type                  	Hybrid
 topology                      	transformerless
 ```
 
@@ -232,7 +232,7 @@ optional arguments:
 ```
 $ jkbms -P JK02 -c
 Parameter                     	Value           Unit
-getInfo                       	BLE Device Information inquiry	    
+getInfo                       	BLE Device Information inquiry
 getCellData                   	BLE Cell Data inquiry
 ```
 
@@ -241,16 +241,16 @@ $ jkbms -p 3C:A5:09:0A:AA:AA -c getInfo
 Command: getInfo - BLE Device Information inquiry
 ------------------------------------------------------------
 Parameter                     	Value           Unit
-Header                        	55aaeb90       	    
-Record Type                   	03             	    
-Record Counter                	181            	    
-Device Model                  	JK-BD6A20S     	    
-Hardware Version              	10P4.0         	    
-Software Version              	4.1.7          	    
-Device Name                   	JK-BD6A20S    	    
-Device Passcode               	xxxx          	    
-Unknown1                      	200708         	    
-Unknown2                      	2006284075     	    
-User Data                     	Input Userdata 	    
-Settings Passcode?            	xxx         
+Header                        	55aaeb90
+Record Type                   	03
+Record Counter                	181
+Device Model                  	JK-BD6A20S
+Hardware Version              	10P4.0
+Software Version              	4.1.7
+Device Name                   	JK-BD6A20S
+Device Passcode               	xxxx
+Unknown1                      	200708
+Unknown2                      	2006284075
+User Data                     	Input Userdata
+Settings Passcode?            	xxx
 ```

@@ -101,7 +101,3 @@ ENV/
 .mypy_cache/
 
 *.local
-.vscode/
-.idea/
-mppsolar/.idea/
-poetry.lock

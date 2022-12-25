@@ -245,7 +245,11 @@ NEW_COMMANDS = {
             ["int", "RSV1", "A"],
             ["int", "RSV2", "A"],
             ["int", "PV Input Power", "W"],
-            ["flags", "Device Status2", ["is_charging_to_float", "is_switched_on", "is_reserved"]],
+            [
+                "flags",
+                "Device Status2",
+                ["is_charging_to_float", "is_switched_on", "is_reserved"],
+            ],
         ],
         "test_responses": [
             b"(000.0 00.0 230.0 49.9 0161 0119 003 460 57.50 012 100 0069 0014 103.8 57.45 00000 00110110 00 00 00856 010\x24\x8C\r",
@@ -307,14 +311,27 @@ NEW_COMMANDS = {
             ["int", "Max AC Charging Current", "A"],
             ["int", "Max Charging Current", "A"],
             ["option", "Input Voltage Range", ["Appliance", "UPS"]],
-            ["option", "Output Source Priority", ["Utility first", "Solar first", "SBU first"]],
+            [
+                "option",
+                "Output Source Priority",
+                ["Utility first", "Solar first", "SBU first"],
+            ],
             [
                 "option",
                 "Charger Source Priority",
-                ["Utility first", "Solar first", "Solar + Utility", "Only solar charging permitted"],
+                [
+                    "Utility first",
+                    "Solar first",
+                    "Solar + Utility",
+                    "Only solar charging permitted",
+                ],
             ],
             ["int", "Max Parallel Units", "units"],
-            ["keyed", "Machine Type", {"00": "Grid tie", "01": "Off Grid", "10": "Hybrid"}],
+            [
+                "keyed",
+                "Machine Type",
+                {"00": "Grid tie", "01": "Off Grid", "10": "Hybrid"},
+            ],
             ["option", "Topology", ["transformerless", "transformer"]],
             [
                 "option",

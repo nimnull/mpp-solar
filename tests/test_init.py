@@ -1,9 +1,9 @@
 import unittest
 
 import mppsolar
-from mppsolar.outputs.baseoutput import baseoutput
-from mppsolar.devices.mppsolar import mppsolar as _mppsolar
 from mppsolar.devices.jkbms import jkbms as _jkbms
+from mppsolar.devices.mppsolar import mppsolar as _mppsolar
+from mppsolar.outputs.baseoutput import BaseOutput
 
 # from mppsolar.devices.device import AbstractDevice as _abstractdevice
 
@@ -11,14 +11,12 @@ from mppsolar.devices.jkbms import jkbms as _jkbms
 class test_init(unittest.TestCase):
     def test_get_outputs(self):
         """test the get_outputs command"""
-        list_of_outputs = (
-            "hass_mqtt,influx_mqtt,influx2_mqtt,json_mqtt,json,mqtt,raw,screen,tag_mqtt,json_udp"
-        )
+        list_of_outputs = "hass_mqtt,influx_mqtt,influx2_mqtt,json_mqtt,json,mqtt,raw,screen,tag_mqtt,json_udp"
         outputs = mppsolar.get_outputs(list_of_outputs)
 
         # Check all outputs are valid
         for output in outputs:
-            self.assertIsInstance(output, type(baseoutput()))
+            self.assertIsInstance(output, type(BaseOutput()))
 
         # Check options are created
         number_in_list = len(list_of_outputs.split(","))

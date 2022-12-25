@@ -2,7 +2,6 @@ import logging
 
 from .jkabstractprotocol import jkAbstractProtocol
 
-
 log = logging.getLogger("jk04")
 
 NEW_COMMANDS = {
@@ -113,6 +112,7 @@ class jk04(jkAbstractProtocol):
     JK04 - Handler for JKBMS 4 byte data communication
          - e.g. 5b566240 = 3.5365V
     """
+
     def __str__(self):
         return "JKBMS BLE 4 byte data communication protocol handler"
 

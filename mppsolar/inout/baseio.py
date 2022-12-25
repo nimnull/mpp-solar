@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
 import logging
+from abc import ABC, abstractmethod
 
 # from time import sleep
 log = logging.getLogger("BaseIO")
@@ -7,7 +7,7 @@ log = logging.getLogger("BaseIO")
 
 class BaseIO(ABC):
     @abstractmethod
-    def send_and_receive(self, *args, **kwargs) -> dict:
+    def send_and_receive(self, *args, **kwargs) -> dict | bytes:
         raise NotImplementedError
 
     def connect(self) -> None:

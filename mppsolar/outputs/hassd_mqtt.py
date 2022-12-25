@@ -2,18 +2,16 @@ import json as js
 import logging
 import re
 
-from ..helpers import get_kwargs, key_wanted
-from .mqtt import mqtt
+from mppsolar.helpers import get_kwargs, key_wanted
+
+from .mqtt import MQTT
 
 log = logging.getLogger("hassd_mqtt")
 
 
-class hassd_mqtt(mqtt):
+class HassdMQTT(MQTT):
     def __str__(self):
         return """outputs the to the supplied mqtt broker in hass format: eg "homeassistant/sensor/mpp_{tag}_{key}/state" """
-
-    def __init__(self, *args, **kwargs) -> None:
-        log.debug(f"__init__: kwargs {kwargs}")
 
     def build_msgs(self, *args, **kwargs):
         data = get_kwargs(kwargs, "data")
@@ -56,9 +54,20 @@ class hassd_mqtt(mqtt):
                 topic = f"homeassistant/sensor/mpp_{tag}_{key}/config"
                 topic = topic.replace(" ", "_")
                 name = f"{tag} {_key}"
-                payload = {"name": f"{name}", "state_topic": f"homeassistant/sensor/mpp_{tag}_{key}/state", "unit_of_measurement": f"{unit}", "unique_id": f"mpp_{tag}_{key}", "force_update": "true"}
+                payload = {
+                    "name": f"{name}",
+                    "state_topic": f"homeassistant/sensor/mpp_{tag}_{key}/state",
+                    "unit_of_measurement": f"{unit}",
+                    "unique_id": f"mpp_{tag}_{key}",
+                    "force_update": "true",
+                }
                 # payload["device"] = {"name": f"{device_name}", "identifiers": ["mppsolar"], "model": "PIP6048MAX", "manufacturer": "MPP-Solar"}
-                payload["device"] = {"name": f"{device_name}", "identifiers": [f"{device_name}"], "model": f"{device_name}", "manufacturer": "MPP-Solar"}
+                payload["device"] = {
+                    "name": f"{device_name}",
+                    "identifiers": [f"{device_name}"],
+                    "model": f"{device_name}",
+                    "manufacturer": "MPP-Solar",
+                }
                 if unit == "W":
                     payload.update({"state_class": "measurement", "device_class": "power"})
                 # msg = {"topic": topic, "payload": payload, "retain": True}

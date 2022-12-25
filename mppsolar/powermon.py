@@ -5,7 +5,6 @@ from collections import deque
 from time import sleep
 
 import yaml
-
 from mppsolar.libs.mqttbroker import MqttBrokerC as MqttBroker
 from mppsolar.outputs import output_results
 from mppsolar.ports import get_port
@@ -106,9 +105,7 @@ def main():
         const="/etc/mpp-solar/powermon.yml",
         default=None,
     )
-    parser.add_argument(
-        "-v", "--version", action="store_true", help="Display the version"
-    )
+    parser.add_argument("-v", "--version", action="store_true", help="Display the version")
     parser.add_argument(
         "--generateConfigFile",
         action="store_true",
@@ -126,9 +123,7 @@ def main():
         action="store_true",
         help="Enable Debug and above (i.e. all) messages",
     )
-    parser.add_argument(
-        "-I", "--info", action="store_true", help="Enable Info and above level messages"
-    )
+    parser.add_argument("-I", "--info", action="store_true", help="Enable Info and above level messages")
 
     args = parser.parse_args()
     # prog_name = parser.prog
@@ -173,9 +168,7 @@ def main():
     mqttconfig = config.get("mqttbroker", {})
     mqtt_broker = MqttBroker(config=mqttconfig)
     # sub to command topic if defined
-    mqtt_broker.set_adhoc_commands(
-        adhoc_commands=mqttconfig.get("adhoc_commands"), callback=mqtt_callback
-    )
+    mqtt_broker.set_adhoc_commands(adhoc_commands=mqttconfig.get("adhoc_commands"), callback=mqtt_callback)
     log.debug(mqtt_broker)
 
     # get port
@@ -200,13 +193,9 @@ def main():
                 # process any adhoc commands first
                 log.debug(f"adhoc command list: {ADHOC_COMMANDS}")
                 while len(ADHOC_COMMANDS) > 0:
-                    adhoc_command = (
-                        ADHOC_COMMANDS.popleft().decode()
-                    )  # FIXME: decode to str #
+                    adhoc_command = ADHOC_COMMANDS.popleft().decode()  # FIXME: decode to str #
                     log.info(f"Processing command: {adhoc_command}")
-                    results = port.process_command(
-                        command=adhoc_command, protocol=protocol
-                    )
+                    results = port.process_command(command=adhoc_command, protocol=protocol)
                     log.debug(f"results {results}")
                     # send to output processor(s)
                     # TODO sort outputs
@@ -217,14 +206,10 @@ def main():
                     )
                 # process 'normal' commands
                 log.info(f"Processing command: {command}")
-                results = port.process_command(
-                    command=command["command"], protocol=protocol
-                )
+                results = port.process_command(command=command["command"], protocol=protocol)
                 log.debug(f"results {results}")
                 # send to output processor(s)
-                output_results(
-                    results=results, outputs=command["outputs"], mqtt_broker=mqtt_broker
-                )
+                output_results(results=results, outputs=command["outputs"], mqtt_broker=mqtt_broker)
                 # pause
                 # pause_time = config["command_pause"]
                 # log.debug(f"Sleeping for {pause_time}secs")

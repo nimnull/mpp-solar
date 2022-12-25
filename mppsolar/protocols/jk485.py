@@ -3,7 +3,6 @@ import logging
 from .jkabstractprotocol import jkAbstractProtocol
 from .protocol_helpers import crc8
 
-
 log = logging.getLogger("jk485")
 
 

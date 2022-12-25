@@ -1,31 +1,19 @@
 import logging
-import re
 
-from .mqtt import mqtt
-from ..helpers import get_kwargs
-from ..helpers import key_wanted
+from mppsolar.helpers import key_wanted
 
-log = logging.getLogger("domoticz_mqtt")
+from .helpers import get_common_params
+from .mqtt import MQTT
+
+log = logging.getLogger(__name__)
 
 
-class domoticz_mqtt(mqtt):
+class DomoticzMQTT(MQTT):
     def __str__(self):
         return """outputs the to the supplied mqtt broker in hass format: eg "homeassistant/sensor/mpp_{tag}_{key}/state" """
 
-    def __init__(self, *args, **kwargs) -> None:
-        log.debug(f"__init__: kwargs {kwargs}")
-
     def build_msgs(self, *args, **kwargs):
-        data = get_kwargs(kwargs, "data")
-        tag = get_kwargs(kwargs, "tag")
-        keep_case = get_kwargs(kwargs, "keep_case")
-
-        filter = get_kwargs(kwargs, "filter")
-        if filter is not None:
-            filter = re.compile(filter)
-        excl_filter = get_kwargs(kwargs, "excl_filter")
-        if excl_filter is not None:
-            excl_filter = re.compile(excl_filter)
+        data, tag, keep_case, filter_, excl_filter = get_common_params(kwargs)
 
         # Build array of mqtt messages with hass update format
         # assumes hass_config has been run

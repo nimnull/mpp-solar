@@ -1,9 +1,10 @@
 import logging
-import serial
 import time
 
-from .baseio import BaseIO
+import serial
+
 from ..helpers import get_kwargs
+from .baseio import BaseIO
 
 log = logging.getLogger("SerialIO")
 

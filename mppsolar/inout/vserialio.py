@@ -1,10 +1,12 @@
 import logging
+
 import serial
+
+from ..helpers import get_kwargs
+from .baseio import BaseIO
 
 # import time
 
-from .baseio import BaseIO
-from ..helpers import get_kwargs
 
 log = logging.getLogger("VSerialIO")
 
@@ -26,9 +28,7 @@ class VSerialIO(BaseIO):
         # print(full_command)
         # "VEDTEXT"
         responses = b""
-        log.debug(
-            f"port {self._serial_port}, baudrate {self._serial_baud}, records {self._records}"
-        )
+        log.debug(f"port {self._serial_port}, baudrate {self._serial_baud}, records {self._records}")
 
         if full_command == "VEDTEXT":
             # Just grab _records from the serial port
@@ -71,9 +71,7 @@ class VSerialIO(BaseIO):
                     return response_line
             except Exception as e:
                 log.warning(f"VSerial read error: {e}")
-            log.info(
-                f"Error occured while processing command {full_command} on {self._serial_port}"
-            )
+            log.info(f"Error occured while processing command {full_command} on {self._serial_port}")
             return {
                 "ERROR": [
                     f"Error occured while processing command {full_command} on {self._serial_port}",

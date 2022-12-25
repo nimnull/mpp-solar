@@ -2,7 +2,6 @@ import logging
 
 from .jkabstractprotocol import jkAbstractProtocol
 
-
 log = logging.getLogger("jkv11")
 
 NEW_COMMANDS = {
@@ -124,8 +123,7 @@ NEW_COMMANDS = {
             ["discard", 2, "Unknown29", ""],
             ["discard", 93, "Unknown30", ""],
         ],
-        "test_responses": [
-        ],
+        "test_responses": [],
     },
     "setCellOVP": {
         "name": "setCellOVP",
@@ -151,6 +149,7 @@ class jkv11(jkAbstractProtocol):
     JKv11 - Handler for JKBMS 2 byte data communication
          - e.g. ASAS = ??V
     """
+
     def __str__(self):
         return "JKBMS BLE communication protocol handler software v11.x"
 

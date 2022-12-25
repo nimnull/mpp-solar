@@ -14,7 +14,7 @@
   ```
   KERNEL=="hidraw*", SUBSYSTEM=="hidraw", MODE="0660", GROUP="plugdev"
   ```
-  - after a restart (or replug of the USB cable) any user of the plugdev group will be able to read from/write to any /dev/hidraw device  
+  - after a restart (or replug of the USB cable) any user of the plugdev group will be able to read from/write to any /dev/hidraw device
   - check with `ls -l /dev/hidraw*`
 ```
 crw-rw---- 1 root plugdev 245, 0 Oct 15 03:17 /dev/hidraw0

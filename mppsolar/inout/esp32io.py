@@ -1,11 +1,16 @@
 import logging
-from machine import UART
 import time
 
-from .baseio import BaseIO
-from ..helpers import get_kwargs
+from mppsolar.helpers import get_kwargs
 
-log = logging.getLogger("ESP32IO")
+from .baseio import BaseIO
+
+log = logging.getLogger(__name__)
+
+try:
+    from machine import UART
+except ImportError:
+    log.exception("`machine` package is not awailable")
 
 
 class ESP32IO(BaseIO):
@@ -18,7 +23,7 @@ class ESP32IO(BaseIO):
         self._serial_port = device_path
         self._serial_baud = serial_baud
 
-    def send_and_receive(self, *args, **kwargs) -> dict:
+    def send_and_receive(self, *args, **kwargs) -> dict | bytes:
         full_command = get_kwargs(kwargs, "full_command")
         log.info(f"ESP32 serial connection: executing {full_command}")
 

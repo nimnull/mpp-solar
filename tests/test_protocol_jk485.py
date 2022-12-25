@@ -1,4 +1,5 @@
 import unittest
+
 from mppsolar.protocols.jk485 import jk485 as pi
 
 
@@ -6,7 +7,7 @@ class test_jk04_decode(unittest.TestCase):
     maxDiff = None
 
     def test_getBalancerData(self):
-        """ test the decode of a getBalancerData response"""
+        """test the decode of a getBalancerData response"""
         protocol = pi()
         response = bytes.fromhex(
             "EB 90 01 FF 1E D3 0F 69 14 13 02 00 00 00 07 00 00 00 05 03 E8 01 14 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 0F 69 00 16 6F"

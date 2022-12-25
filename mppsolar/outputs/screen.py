@@ -1,34 +1,22 @@
 import logging
-import re
 
-from .baseoutput import baseoutput
-from ..helpers import get_kwargs
-from ..helpers import key_wanted
+from mppsolar.helpers import key_wanted
+
+from .baseoutput import BaseOutput
+from .helpers import get_common_params
 
 log = logging.getLogger("screen")
 
 
-class screen(baseoutput):
+class Screen(BaseOutput):
     def __str__(self):
         return "[the default output module] outputs the results to standard out in a slightly formatted way"
 
-    def __init__(self, *args, **kwargs) -> None:
-        log.debug(f"processor.screen __init__ kwargs {kwargs}")
-
     def output(self, *args, **kwargs):
-        log.info("Using output processor: screen")
-        log.debug(f"kwargs {kwargs}")
-        data = get_kwargs(kwargs, "data")
+        data, tag, keep_case, filter_, excl_filter = get_common_params(kwargs)
+
         if data is None:
             return
-
-        keep_case = get_kwargs(kwargs, "keep_case")
-        filter = get_kwargs(kwargs, "filter")
-        if filter is not None:
-            filter = re.compile(filter)
-        excl_filter = get_kwargs(kwargs, "excl_filter")
-        if excl_filter is not None:
-            excl_filter = re.compile(excl_filter)
 
         _desc = "No description found"
         if "_command_description" in data:
@@ -50,7 +38,7 @@ class screen(baseoutput):
             if not keep_case:
                 # make lowercase
                 key = key.lower()
-            if key_wanted(key, filter, excl_filter):
+            if key_wanted(key, filter_, excl_filter):
                 try:
                     print(f"{key:<30}\t{value:<15}\t{unit:<4}")
                 except TypeError:

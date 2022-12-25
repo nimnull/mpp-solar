@@ -5,11 +5,12 @@ import time
 
 import paho.mqtt.client as mqttc
 
+from ..helpers import get_kwargs
+from .baseio import BaseIO
+
 # import paho.mqtt.publish as publish
 # import paho.mqtt.subscribe as subscribe
 
-from ..helpers import get_kwargs
-from .baseio import BaseIO
 
 log = logging.getLogger("MqttIO")
 
@@ -52,9 +53,7 @@ class MqttIO(BaseIO):
 
         if self.mqtt_user is not None and self.mqtt_pass is not None:
             # auth = {"username": self.mqtt_user, "password": self.mqtt_pass}
-            log.info(
-                f"Using mqtt authentication, username: {self.mqtt_user}, password: [supplied]"
-            )
+            log.info(f"Using mqtt authentication, username: {self.mqtt_user}, password: [supplied]")
             mqtt_client.username_pw_set(self.mqtt_user, password=self.mqtt_pass)
         else:
             log.debug("No mqtt authentication used")

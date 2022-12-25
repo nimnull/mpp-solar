@@ -1,6 +1,6 @@
-from bluepy import btle
 import logging
 
+from bluepy import btle
 
 log = logging.getLogger("jkBleDelegate")
 
@@ -32,12 +32,8 @@ class jkBleDelegate(btle.DefaultDelegate):
         # if not self._protocol.is_record_start(self.notificationData):
         #     log.debug(f"Not valid start of record - wiping data {self.notificationData}")
         #     self.notificationData = bytearray()
-        if not self._protocol.is_record_correct_type(
-            self.notificationData, self._record_type
-        ):
-            log.debug(
-                f"Not expected type of record - wiping data {self.notificationData}"
-            )
+        if not self._protocol.is_record_correct_type(self.notificationData, self._record_type):
+            log.debug(f"Not expected type of record - wiping data {self.notificationData}")
             self.notificationData = bytearray()
         if self._protocol.is_record_complete(self.notificationData):
             self._jkbleio.record = self.notificationData

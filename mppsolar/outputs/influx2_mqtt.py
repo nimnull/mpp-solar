@@ -1,31 +1,20 @@
 import logging
-import re
 
-from .mqtt import mqtt
-from ..helpers import get_kwargs
-from ..helpers import key_wanted
+from mppsolar.helpers import get_kwargs, key_wanted
 
-log = logging.getLogger("influx2_mqtt")
+from .helpers import get_common_params
+from .mqtt import MQTT
+
+log = logging.getLogger(__name__)
 
 
-class influx2_mqtt(mqtt):
+class Influx2MQTT(MQTT):
     def __str__(self):
         return "outputs the to the supplied mqtt broker: eg mpp-solar,command={tag} max_charger_range=120.0"
 
-    def __init__(self, *args, **kwargs) -> None:
-        log.debug(f"__init__: kwargs {kwargs}")
-
     def build_msgs(self, *args, **kwargs):
-        data = get_kwargs(kwargs, "data")
-        tag = get_kwargs(kwargs, "tag")
-        keep_case = get_kwargs(kwargs, "keep_case")
+        data, tag, keep_case, filter_, excl_filter = get_common_params(kwargs)
         topic = get_kwargs(kwargs, "mqtt_topic", default="mpp-solar")
-        filter = get_kwargs(kwargs, "filter")
-        if filter is not None:
-            filter = re.compile(filter)
-        excl_filter = get_kwargs(kwargs, "excl_filter")
-        if excl_filter is not None:
-            excl_filter = re.compile(excl_filter)
 
         # Build array of Influx Line Protocol II messages
         # Message format is: mpp-solar,command=QPGS0 max_charger_range=120.0
@@ -46,7 +35,7 @@ class influx2_mqtt(mqtt):
             if not keep_case:
                 # make lowercase
                 key = key.lower()
-            if key_wanted(key, filter, excl_filter):
+            if key_wanted(key, filter_, excl_filter):
                 if isinstance(value, int) or isinstance(value, float):
                     msg = {
                         "topic": topic,

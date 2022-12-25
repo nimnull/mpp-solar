@@ -796,7 +796,11 @@ COMMANDS = {
                 ],
             ],
             ["int", "Max charging time for CV stage", "min"],
-            ["option", "Operation Logic", ["Automatic mode", "On-line mode", "ECO mode"]],
+            [
+                "option",
+                "Operation Logic",
+                ["Automatic mode", "On-line mode", "ECO mode"],
+            ],
         ],
         "test_responses": [
             b"(230.0 21.7 230.0 50.0 21.7 5000 4000 48.0 46.0 42.0 56.4 54.0 0 10 010 1 0 0 6 01 0 0 54.0 0 1\x6F\x7E\r",

@@ -43,9 +43,7 @@ class MqttBroker:
             "Connection refused - bad username or password",
             "Connection refused - not authorised",
         ]
-        log.debug(
-            f"MqttBroker connection returned result: {rc} {connection_result[rc]}"
-        )
+        log.debug(f"MqttBroker connection returned result: {rc} {connection_result[rc]}")
         if rc == 0:
             self._isConnected = True
             return
@@ -106,9 +104,7 @@ class MqttBrokerC:
     # mqttc: mqtt_client.Client = mqtt_client.Client()
     # _isConnected: bool = False
     def __str__(self):
-        return (
-            f"MqttBrokerC name: {self.name}, port: {self.port}, user: {self.username}"
-        )
+        return f"MqttBrokerC name: {self.name}, port: {self.port}, user: {self.username}"
 
     def __init__(self, *args, **kwargs):
 
@@ -146,9 +142,7 @@ class MqttBrokerC:
             "Connection refused - bad username or password",
             "Connection refused - not authorised",
         ]
-        log.debug(
-            f"MqttBroker connection returned result: {rc} {connection_result[rc]}"
-        )
+        log.debug(f"MqttBroker connection returned result: {rc} {connection_result[rc]}")
         if rc == 0:
             self._isConnected = True
             return

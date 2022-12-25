@@ -1,8 +1,8 @@
 import logging
 
 from .abstractprotocol import AbstractProtocol
-from .protocol_helpers import crcPI as crc
 from .protocol_helpers import crc8P1 as chk
+from .protocol_helpers import crcPI as crc
 
 log = logging.getLogger("pi30revo")
 
@@ -401,11 +401,7 @@ class pi30revo(AbstractProtocol):
         # End of required variables setting
 
         byte_cmd = bytes(command, "utf-8")
-        if (
-            self._command_defn
-            and "crctype" in self._command_defn
-            and self._command_defn["crctype"] == "chk"
-        ):
+        if self._command_defn and "crctype" in self._command_defn and self._command_defn["crctype"] == "chk":
             log.debug(f"Using CHK checksum approach for command {self._command}")
             checksum = chk(byte_cmd)
             log.debug(f"checksum {checksum}")

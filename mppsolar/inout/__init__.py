@@ -86,41 +86,49 @@ def get_port(*args, **kwargs):
     if port_type == PortType.TEST:
         log.info("Using testio for communications")
         from mppsolar.inout.testio import TestIO
+
         _port = TestIO(device_path=port)
 
     elif port_type == PortType.USB:
         log.info("Using hidrawio for communications")
         from mppsolar.inout.hidrawio import HIDRawIO
+
         _port = HIDRawIO(device_path=port)
 
     elif port_type == PortType.TUSB:
         log.info("Using hidfullio for communications")
         from mppsolar.inout.hidfullio import HIDFullIO
+
         _port = HIDFullIO(device_path=port)
 
     elif port_type == PortType.ESP32:
         log.info("Using esp32io for communications")
         from mppsolar.inout.esp32io import ESP32IO
+
         _port = ESP32IO(device_path=port)
 
     elif port_type == PortType.JKBLE:
         log.info("Using jkbleio for communications")
         from mppsolar.inout.jkbleio import JkBleIO
+
         _port = JkBleIO(device_path=port)
 
     elif port_type == PortType.SERIAL:
         log.info("Using serialio for communications")
         from mppsolar.inout.serialio import SerialIO
+
         _port = SerialIO(device_path=port, serial_baud=baud)
 
     elif port_type == PortType.DALYSERIAL:
         log.info("Using dalyserialio for communications")
         from mppsolar.inout.dalyserialio import DalySerialIO
+
         _port = DalySerialIO(device_path=port, serial_baud=baud)
 
     elif port_type == PortType.VSERIAL:
         log.info("Using vserialio for communications")
         from mppsolar.inout.vserialio import VSerialIO
+
         _port = VSerialIO(device_path=port, serial_baud=baud, records=30)
 
     elif port_type == PortType.MQTT:

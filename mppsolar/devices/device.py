@@ -35,9 +35,7 @@ class AbstractDevice(ABC):
         self._name = get_kwargs(kwargs, "name")
         self._port = get_port(**kwargs)
         self._protocol = get_protocol(get_kwargs(kwargs, "protocol"))
-        log.debug(
-            f"__init__ name {self._name}, port {self._port}, protocol {self._protocol}"
-        )
+        log.debug(f"__init__ name {self._name}, port {self._port}, protocol {self._protocol}")
 
     def __str__(self):
         """
@@ -277,9 +275,7 @@ class AbstractDevice(ABC):
             log.error("Attempted to run command with no protocol defined")
             return {"ERROR": ["Attempted to run command with no protocol defined", ""]}
         if self._port is None:
-            log.error(
-                f"No communications port defined - unable to run command {command}"
-            )
+            log.error(f"No communications port defined - unable to run command {command}")
             return {
                 "ERROR": [
                     f"No communications port defined - unable to run command {command}",
@@ -302,9 +298,7 @@ class AbstractDevice(ABC):
         full_command = self._protocol.get_full_command(command)
         log.info(f"full command {full_command} for command {command}")
         if full_command is None:
-            log.error(
-                f"full_command not found for {command} in protocol {self._protocol._protocol_id}"
-            )
+            log.error(f"full_command not found for {command} in protocol {self._protocol._protocol_id}")
             return {
                 "ERROR": [
                     f"full_command not found for {command} in protocol {self._protocol._protocol_id}",

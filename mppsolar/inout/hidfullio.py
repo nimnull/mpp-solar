@@ -3,8 +3,8 @@ import logging
 import os
 import time
 
-from .baseio import BaseIO
 from ..helpers import get_kwargs
+from .baseio import BaseIO
 
 log = logging.getLogger("HIDFullIO")
 
@@ -14,7 +14,7 @@ class HIDFullIO(BaseIO):
         # self._fd = os.open(device_path, flags=os.O_RDWR | os.O_NONBLOCK)
         self._device = device_path
 
-    def send_and_receive(self, *args, **kwargs) -> dict:
+    def send_and_receive(self, *args, **kwargs) -> dict | bytes:
         full_command = get_kwargs(kwargs, "full_command")
         response_line = bytes()
         usb0 = None
@@ -25,13 +25,6 @@ class HIDFullIO(BaseIO):
             return {"ERROR": ["USB open error: {}".format(e), ""]}
         # Send the command to the open usb connection
         to_send = full_command
-        try:
-            log.debug(f"length of to_send: {len(to_send)}")
-        except:  # noqa: E722
-            import pdb
-
-            pdb.set_trace()
-
         # Send all at once
         log.debug("1 chunk send")
         time.sleep(0.35)

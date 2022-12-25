@@ -1,20 +1,17 @@
 import logging
 import re
+
 import paho.mqtt.publish as publish
+from mppsolar.helpers import get_kwargs, key_wanted
 
-from .baseoutput import baseoutput
-from ..helpers import get_kwargs
-from ..helpers import key_wanted
+from .baseoutput import BaseOutput
 
-log = logging.getLogger("mqtt")
+log = logging.getLogger(__name__)
 
 
-class mqtt(baseoutput):
+class MQTT(BaseOutput):
     def __str__(self):
         return "outputs the results to the supplied mqtt broker: eg {tag}/status/total_output_active_power/value 1250"
-
-    def __init__(self, *args, **kwargs) -> None:
-        log.debug(f"__init__: kwargs {kwargs}")
 
     def build_msgs(self, *args, **kwargs):
         data = get_kwargs(kwargs, "data")
@@ -47,11 +44,9 @@ class mqtt(baseoutput):
                 log.debug(f"build_msgs: tag {tag}, key {key}, value {value}, unit {unit}")
                 # 'tag'/status/total_output_active_power/value 1250
                 # 'tag'/status/total_output_active_power/unit W
-                msg = {"topic": f"{tag}/status/{key}/value", "payload": value}
-                msgs.append(msg)
+                msgs.append({"topic": f"{tag}/status/{key}/value", "payload": value})
                 if unit:
-                    msg = {"topic": f"{tag}/status/{key}/unit", "payload": unit}
-                    msgs.append(msg)
+                    msgs.append({"topic": f"{tag}/status/{key}/unit", "payload": unit})
         log.debug(f"build_msgs: {msgs}")
         return msgs
 
@@ -64,20 +59,10 @@ class mqtt(baseoutput):
         mqtt_broker = get_kwargs(kwargs, "mqtt_broker")
         if mqtt_broker is None or not mqtt_broker.name:
             return
-        mqtt_port = mqtt_broker.port
-        mqtt_user = mqtt_broker.username
-        mqtt_pass = mqtt_broker.password
 
-        filter = get_kwargs(kwargs, "filter")
-        if filter is not None:
-            filter = re.compile(filter)
-        excl_filter = get_kwargs(kwargs, "excl_filter")
-        if excl_filter is not None:
-            excl_filter = re.compile(excl_filter)
-
-        if mqtt_user and mqtt_pass:
-            auth = {"username": mqtt_user, "password": mqtt_pass}
-            log.info(f"Using mqtt authentication, username: {mqtt_user}, password: [supplied]")
+        if mqtt_broker.username and mqtt_broker.password:
+            auth = {"username": mqtt_broker.username, "password": mqtt_broker.password}
+            log.info(f"Using mqtt authentication, username: {mqtt_broker.username}, password: [supplied]")
         else:
             log.debug("No mqtt authentication used")
             auth = None
@@ -90,10 +75,15 @@ class mqtt(baseoutput):
                     print(msg)
             else:
                 try:
-                    publish.multiple(msgs, hostname=mqtt_broker.name, port=mqtt_port, auth=auth)
+                    publish.multiple(
+                        msgs,
+                        hostname=mqtt_broker.name,
+                        port=mqtt_broker.port,
+                        auth=auth,
+                    )
                 except Exception as e:
-                    log.warning(
-                        f"Error publishing MQTT messages to broker '{mqtt_broker.name}' on port '{mqtt_port}' with auth '{auth}'"
+                    log.exception(
+                        f"Error publishing MQTT messages to broker '{mqtt_broker.name}' on port '{mqtt_broker.port}'"
                     )
                     log.warning(e)
         else:

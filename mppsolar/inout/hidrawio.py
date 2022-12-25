@@ -3,8 +3,9 @@ import logging
 import os
 import time
 
+from mppsolar.helpers import get_kwargs
+
 from .baseio import BaseIO
-from ..helpers import get_kwargs
 
 log = logging.getLogger("HIDRawIO")
 
@@ -14,10 +15,10 @@ class HIDRawIO(BaseIO):
         # self._fd = os.open(device_path, flags=os.O_RDWR | os.O_NONBLOCK)
         self._device = device_path
 
-    def send_and_receive(self, *args, **kwargs) -> dict:
+    def send_and_receive(self, *args, **kwargs) -> dict | bytes:
         full_command = get_kwargs(kwargs, "full_command")
         response_line = bytes()
-        usb0 = None
+
         try:
             usb0 = os.open(self._device, os.O_RDWR | os.O_NONBLOCK)
         except Exception as e:
@@ -25,18 +26,13 @@ class HIDRawIO(BaseIO):
             return {"ERROR": ["USB open error: {}".format(e), ""]}
         # Send the command to the open usb connection
         to_send = full_command
-        try:
-            log.debug(f"length of to_send: {len(to_send)}")
-        except:  # noqa: E722
-            import pdb
 
-            pdb.set_trace()
         if len(to_send) <= 8:
             # Send all at once
             log.debug("1 chunk send")
             time.sleep(0.35)
             os.write(usb0, to_send)
-        elif len(to_send) > 8 and len(to_send) < 11:
+        elif 8 < len(to_send) < 11:
             log.debug("2 chunk send")
             time.sleep(0.35)
             os.write(usb0, to_send[:5])

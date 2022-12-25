@@ -4,7 +4,7 @@ try running `mpp-solar --help`. This should describe how PostgreSQL url can be u
 
   --postgres_url POSTGRES_URL
                         PostgresSQL connection url, example postgresql://user:password@server:5432/postgres
-  
+
 Connection string reference: (https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-CONNSTRING)
 
 The `user` with the `password` must be available in advance on the postgres server.
@@ -22,13 +22,13 @@ for the table creation:
         data    json,
         updated timestamp
     );
-    
+
     alter table mppsolar
         owner to postgres;
-    
+
     create index mppsolar_command_updated_index
         on mppsolar (command, updated);
-    
+
 Validating data from the table:
 
     select * from mppsolar;
@@ -49,6 +49,3 @@ this will show just solar power from output of the PS command. Or the JSON data 
     select data ->> 'solar_input_power_1'  from mppsolar where command = 'PS' and CAST ( data ->> 'solar_input_power_1' AS INTEGER) > 0;
 
 Reference: (https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-json/)
-
-
-    

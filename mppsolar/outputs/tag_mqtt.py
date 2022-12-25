@@ -1,14 +1,14 @@
 import logging
-import re
 
-from .mqtt import mqtt
-from ..helpers import get_kwargs
-from ..helpers import key_wanted
+from mppsolar.helpers import get_kwargs, key_wanted
+
+from .helpers import get_common_params
+from .mqtt import MQTT
 
 log = logging.getLogger("tag_mqtt")
 
 
-class tag_mqtt(mqtt):
+class TagMQTT(MQTT):
     def __str__(self):
         return "outputs the to the supplied mqtt broker using the supplied tag as the topic: eg {tag}/max_charger_range 120.0"
 
@@ -16,18 +16,9 @@ class tag_mqtt(mqtt):
         log.debug(f"__init__: kwargs {kwargs}")
 
     def build_msgs(self, *args, **kwargs):
-        data = get_kwargs(kwargs, "data")
-        tag = get_kwargs(kwargs, "tag")
-        keep_case = get_kwargs(kwargs, "keep_case")
+        data, tag, keep_case, filter_, excl_filter = get_common_params(kwargs)
+
         _topic = get_kwargs(kwargs, "topic", default="mpp-solar")
-        if tag is None:
-            tag = _topic
-        filter = get_kwargs(kwargs, "filter")
-        if filter is not None:
-            filter = re.compile(filter)
-        excl_filter = get_kwargs(kwargs, "excl_filter")
-        if excl_filter is not None:
-            excl_filter = re.compile(excl_filter)
 
         # Build array of Influx Line Protocol II messages
         # Message format is: mpp-solar,command=QPGS0 max_charger_range=120.0
@@ -48,7 +39,7 @@ class tag_mqtt(mqtt):
             if not keep_case:
                 # make lowercase
                 key = key.lower()
-            if key_wanted(key, filter, excl_filter):
+            if key_wanted(key, filter_, excl_filter):
                 msg = {
                     "topic": f"{tag}/{key}",
                     "payload": value,

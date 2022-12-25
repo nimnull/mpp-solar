@@ -863,9 +863,7 @@ SETTER_COMMANDS = {
         "description": "Enable/disable LED function",
         "help": " -- examples: PLEDE0 (disable LED), PLEDE1 (enable LED)",
         "type": "SETTER",
-        "response": [
-            ["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]
-        ],
+        "response": [["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]],
         "test_responses": [
             b"(NAK\x73\x73\r",
             b"(ACK\x39\x20\r",
@@ -877,9 +875,7 @@ SETTER_COMMANDS = {
         "description": "Set LED speed",
         "help": " -- examples: PLEDS0 (set LED speed low), PLEDS1 (set LED speed medium), PLEDS2 (set LED speed high)",
         "type": "SETTER",
-        "response": [
-            ["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]
-        ],
+        "response": [["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]],
         "test_responses": [
             b"(NAK\x73\x73\r",
             b"(ACK\x39\x20\r",
@@ -891,9 +887,7 @@ SETTER_COMMANDS = {
         "description": "Set LED effect",
         "help": " -- examples: PLEDM0 (set LED effect breathing), PLEDM2 (set LED effect solid), PLEDM3 (set LED right scrolling)",
         "type": "SETTER",
-        "response": [
-            ["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]
-        ],
+        "response": [["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]],
         "test_responses": [
             b"(NAK\x73\x73\r",
             b"(ACK\x39\x20\r",
@@ -905,9 +899,7 @@ SETTER_COMMANDS = {
         "description": "Set LED brightness",
         "help": " -- examples: PLEDB1 (set LED brightness low), PLEDB5 (set LED brightness normal), PLEDB9 (set LED brightness high)",
         "type": "SETTER",
-        "response": [
-            ["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]
-        ],
+        "response": [["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]],
         "test_responses": [
             b"(NAK\x73\x73\r",
             b"(ACK\x39\x20\r",
@@ -919,9 +911,7 @@ SETTER_COMMANDS = {
         "description": "Set LED total number of colors",
         "help": " -- examples: PLEDT2 (set 2 LED colors), PLEDT3 (set 3 LED colors)",
         "type": "SETTER",
-        "response": [
-            ["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]
-        ],
+        "response": [["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]],
         "test_responses": [
             b"(NAK\x73\x73\r",
             b"(ACK\x39\x20\r",
@@ -933,9 +923,7 @@ SETTER_COMMANDS = {
         "description": "Set LED color",
         "help": " -- examples: PLEDCnRRRGGGBBB (n: 1 line mode, 2 AVR mode, 3 battery mode)",
         "type": "SETTER",
-        "response": [
-            ["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]
-        ],
+        "response": [["ack", "Command execution", {"NAK": "Failed", "ACK": "Successful"}]],
         "test_responses": [
             b"(NAK\x73\x73\r",
             b"(ACK\x39\x20\r",
@@ -965,9 +953,7 @@ class pi30max(pi30):
         self.STATUS_COMMANDS = ["QPIGS", "QPIGS2"]
         self.SETTINGS_COMMANDS = ["QPIRI", "QFLAG"]
         self.DEFAULT_COMMAND = "QPI"
-        log.info(
-            f"Using protocol {self._protocol_id} with {len(self.COMMANDS)} commands"
-        )
+        log.info(f"Using protocol {self._protocol_id} with {len(self.COMMANDS)} commands")
 
     def check_response_valid(self, response):
         if response is None:

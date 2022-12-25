@@ -18,7 +18,7 @@
 File | Comment | Source
 --- | --- | ---
 [DALY-Daly_RS485_UART_Protocol.pdf](protocols/DALY-Daly_RS485_UART_Protocol.pdf) | Daly UART protocol | [link](https://diysolarforum.com/resources/daly-smart-bms-manual-and-documentation.48/)
-[JK-B1A24S-RS485-protocol-english.pdf](protocols/JK-B1A24S-RS485-protocol-english.pdf) | JKBMS RS485 protocol (un-implemented) |  
+[JK-B1A24S-RS485-protocol-english.pdf](protocols/JK-B1A24S-RS485-protocol-english.pdf) | JKBMS RS485 protocol (un-implemented) |
 [PI00_RS232_Protocol.pdf](protocols/PI00_RS232_Protocol.pdf) | Old? mpp-solar protocol document| [link](https://www.photovoltaikforum.com/core/attachment/7135-protocol-pdf/)
 [PI16_VoltronicPowerSUNNYProtocol.md](protocols/PI16_VoltronicPowerSUNNYProtocol.md) | |
 [PI17_InfiniSolar-5KW-protocol-20160309.pdf](protocols/PI17_InfiniSolar-5KW-protocol-20160309.pdf) | |
